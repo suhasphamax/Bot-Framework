@@ -16,7 +16,7 @@ class RootBot extends ActivityHandler {
         this.skillClient = skillClient;
         this.conversationIdFactory = conversationIdFactory;
 
-        this.botId = process.env.MicrosoftAppId;
+        this.botId = process.env.MicrosoftAppId; // root bot id
 
         // We use a single skill in this example.
         const targetSkillId = 'EchoSkillBot';
@@ -61,7 +61,10 @@ class RootBot extends ActivityHandler {
         });
 
         // Handle EndOfConversation returned by the skill.
+        // hostendpoint end of conv api is called.
         this.onEndOfConversation(async (context, next) => {
+            // Called from skill handler when it recieves activities from the skill bot
+
             // Stop forwarding activities to Skill.
             await this.activeSkillProperty.set(context, undefined);
 

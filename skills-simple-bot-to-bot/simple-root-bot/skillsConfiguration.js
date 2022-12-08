@@ -15,7 +15,17 @@ class SkillsConfiguration {
             skillEndpoint: process.env.SkillEndpoint
         };
 
-        this.skillsData[botFrameworkSkill.id] = botFrameworkSkill;
+        this.skillsData[botFrameworkSkill.id] = botFrameworkSkill; // for one skill
+        // {
+        //     id:
+        //     {
+        //         skill1
+        //     }
+        // id2:
+        // {
+        //     skill2
+        // }
+        // }
 
         this.skillHostEndpointValue = process.env.SkillHostEndpoint;
         if (!this.skillHostEndpointValue) {

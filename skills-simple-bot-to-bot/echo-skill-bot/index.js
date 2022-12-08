@@ -43,6 +43,7 @@ server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest',
 const allowedCallers = (process.env.AllowedCallers || '').split(',').filter((val) => val) || [];
 
 const claimsValidators = allowedCallersClaimsValidator(allowedCallers);
+// To check if the request is coming from the allowed parent bot.
 
 // If the MicrosoftAppTenantId is specified in the environment config, add the tenant as a valid JWT token issuer for Bot to Skill conversation.
 // The token issuer for MSI and single tenant scenarios will be the tenant where the bot is registered.

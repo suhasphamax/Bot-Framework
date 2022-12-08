@@ -38,8 +38,29 @@ const { SkillsConfiguration } = require('./skillsConfiguration');
 
 // Load skills configuration
 const skillsConfig = new SkillsConfiguration();
+// skillConfig.skills is object of object {
+//     {
+
+// id:
+// {
+// appid:,
+// skillEndpoint:
+// }
+// id2:
+// {
+
+// appid:,
+// skillEndpoint:
+// }
+//     }
+// }
+// skillCongif.skills is an object will have many skills,Object.values converts them
+// array of skills.
+
+// Object of Object convert to array of Objects uses Object.Values(obj)
 
 const allowedSkills = Object.values(skillsConfig.skills).map(skill => skill.appId);
+// allowedSkills contain list of appId's
 
 const claimsValidators = allowedCallersClaimsValidator(allowedSkills);
 
@@ -87,7 +108,7 @@ adapter.onTurnError = async (context, error) => {
     await endSkillConversation(context);
     await clearConversationState(context);
 };
-
+// What us InpuHints.
 async function sendErrorMessage(context, error) {
     try {
         // Send a message to the user.
@@ -180,6 +201,8 @@ server.post('/api/messages', async (req, res) => {
     // Route received a request to adapter for processing
     await adapter.process(req, res, (context) => bot.run(context));
 });
+
+// skill handler will handle all the activities sent back from the skill bot.
 
 const handler = new CloudSkillHandler(adapter, (context) => bot.run(context), conversationIdFactory, botFrameworkAuthentication);
 const skillEndpoint = new ChannelServiceRoutes(handler);
