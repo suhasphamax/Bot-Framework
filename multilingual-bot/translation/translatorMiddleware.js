@@ -30,19 +30,22 @@ class TranslatorMiddleware {
             throw new Error('Context is returning null');
         };
 
+        //user to bot
         const translate = await this.shouldTranslate(context);// to check if userlang and default are same
-
+// line 36 & 39
         if (translate) {
             await this.translateMessageActivity(context.activity, DEFAULT_LANGUAGE);
         };
 
+    //bot to user
         await context.onSendActivities(async (context, activities, nextSend) => {
+            //when sending the information or content to  the users
             const userLanguage = await this.languagePreferenceProperty.get(context, DEFAULT_LANGUAGE);
             const shouldTranslate = userLanguage !== DEFAULT_LANGUAGE;
             // Translation done only when user lang is not same as default language.
 
             // Translate messages sent to the user to user language.
-            
+
             if (shouldTranslate) {
                 for (const activity of activities) {
                     await this.translateMessageActivity(activity, userLanguage);
@@ -56,6 +59,7 @@ class TranslatorMiddleware {
     };
 
     async translateMessageActivity(activity, targetLocale) {
+        // if user lang is not english, the query is converted to eng and then sent to processing.
         if (activity.type === ActivityTypes.Message) {
             activity.text = await this.translator.translate(activity.text, targetLocale);
             // target locale is 2 letter language code.

@@ -51,6 +51,7 @@ class MultilingualBot extends ActivityHandler {
             if (isLanguageChangeRequested(context.activity.text)) {
                 const currentLang = context.activity.text.toLowerCase();
                 const lang = currentLang === englishEnglish || currentLang === spanishEnglish ? englishEnglish : englishSpanish;
+                // if the output lang required is eng then choose "engeng" else chose "engspan" translation.
 
                 // Get the user language preference from the user state.
                 await this.languagePreferenceProperty.set(context, lang);
@@ -70,7 +71,7 @@ class MultilingualBot extends ActivityHandler {
                     {
                         type: ActionTypes.PostBack,
                         title: 'Español',
-                        value: englishSpanish
+                        value: englishSpanish // bot default lang is eng so output will be in spanish so we required to use a eng to span translator.
                     },
                     {
                         type: ActionTypes.PostBack,
@@ -108,6 +109,8 @@ class MultilingualBot extends ActivityHandler {
  * @param {string} utterance the current turn utterance.
  */
 function isLanguageChangeRequested(utterance) {
+    // only a bool value is returned 
+
     // If the utterance is empty or the utterance is not a supported language code,
     // then there is no language change requested
     if (!utterance) {
